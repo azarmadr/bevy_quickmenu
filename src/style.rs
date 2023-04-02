@@ -118,6 +118,7 @@ pub struct Stylesheet {
     pub vertical_spacing: f32,
     pub style: Option<Style>,
     pub background: Option<BackgroundColor>,
+    pub kbd_input_en: bool,
 }
 
 impl Default for Stylesheet {
@@ -129,6 +130,7 @@ impl Default for Stylesheet {
             vertical_spacing: 10.0,
             style: None,
             background: None,
+            kbd_input_en: true,
         }
     }
 }

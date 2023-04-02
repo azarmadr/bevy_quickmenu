@@ -120,7 +120,7 @@ where
                 systems::mouse_system::<S>.run_if(resource_exists::<MenuState<S>>()),
                 systems::input_system::<S>.run_if(resource_exists::<MenuState<S>>()),
                 systems::redraw_system::<S>.run_if(resource_exists::<MenuState<S>>()),
-                systems::keyboard_input_system.run_if(resource_exists::<MenuState<S>>()),
+                systems::keyboard_input_system.run_if(keyboard_enabled::<S>),
             ));
     }
 }
@@ -128,6 +128,10 @@ where
 /// Remove the menu
 pub fn cleanup(commands: &mut Commands) {
     commands.init_resource::<CleanUpUI>();
+}
+
+pub fn keyboard_enabled<S: ScreenTrait>(kbd: Option<Res<MenuState<S>>>) -> bool {
+    kbd.map_or(false, |menu| menu.menu.stylesheet.kbd_input_en)
 }
 
 /// A type conforming to this trait is used to handle the events that
@@ -175,7 +179,7 @@ where
         &mut self.menu.state
     }
 
-    /// Can a immutable reference to the state.
+    /// Get an immutable reference to the state.
     pub fn state(&self) -> &S::State {
         &self.menu.state
     }
